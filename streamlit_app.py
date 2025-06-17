@@ -9,7 +9,7 @@ session = cnx.session()
 smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
 
 # Write directly to the app
-st.title(f":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
+st.title(":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
 st.write(
   "Choose the fruits you want in your custom Smoothie!"
 )
@@ -25,12 +25,13 @@ ingredients_list = st.multiselect(
     , max_selections=5
 )
 if ingredients_list:
-    # st.write(ingredients_list)
-    # st.text(ingredients_list)
     ingredients_string = ''
 
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
+
+        smoothiefroot_respoonse = requests.get(f"https://www.smoothiefroot.com/api/fruit/{fruit_chosen}")
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     st.write(ingredients_string)
 
@@ -46,6 +47,10 @@ if ingredients_list:
         st.success(f"Your Smoothie is ordered, {name_on_order}!", icon="✅")
 
 # Display smoothiefroot nutrition info
-smoothiefroot_respoonse = requests.get("https://www.smoothiefroot.com/api/fruit/orange")
-sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+if ingredients_list:
+    ingredients_string = ''
+
+    for fruit_chosen in ingredients_list:
+        ingredients_string += fruit_chosen + ' '
+
 
