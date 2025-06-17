@@ -6,7 +6,7 @@ import requests
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+# smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
 
 # Write directly to the app
 st.title(":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
@@ -28,10 +28,11 @@ if ingredients_list:
     ingredients_string = ''
 
     for fruit_chosen in ingredients_list:
+        st.write(f'Fruit Chosen: {fruit_chosen}')
         ingredients_string += fruit_chosen + ' '
 
         smoothiefroot_respoonse = requests.get(f"https://www.smoothiefroot.com/api/fruit/{fruit_chosen}")
-        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+        sf_df = st.dataframe(data=smoothiefroot_respoonse.json(), use_container_width=True)
 
     st.write(ingredients_string)
 
@@ -45,12 +46,4 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
     
         st.success(f"Your Smoothie is ordered, {name_on_order}!", icon="✅")
-
-# Display smoothiefroot nutrition info
-if ingredients_list:
-    ingredients_string = ''
-
-    for fruit_chosen in ingredients_list:
-        ingredients_string += fruit_chosen + ' '
-
 
