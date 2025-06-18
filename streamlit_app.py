@@ -1,6 +1,7 @@
 # Import python packages
 import streamlit as st
 from snowflake.snowpark.functions import col
+import requests
 
 cnx = st.connection("snowflake")
 session = cnx.session()
@@ -38,12 +39,14 @@ if ingredients_list:
         search_on = pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
         st.subheader(f'The search value for {fruit_chosen} is {search_on}')
 
+        fruit_api_loc = f"https://www.smoothiefroot.com/api/fruit/{str.lower(search_on)}"
+
+        smoothiefroot_respoonse = requests.get("")
+        sf_df = st.dataframe(data=smoothiefroot_respoonse.json(), use_container_width=True)
+
+        st.subheader(f'{fruit_chosen} Nutritional Information')
+
 st.stop()
-#         fruit_api_loc = f"https://www.smoothiefroot.com/api/fruit/{str.lower(fruit_chosen)}"
-#
-#         smoothiefroot_respoonse = requests.get("")
-#         sf_df = st.dataframe(data=smoothiefroot_respoonse.json(), use_container_width=True)
-#
 #     # st.write(ingredients_string)
 #
 #     my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
