@@ -17,7 +17,7 @@ st.write(
 name_on_order = st.text_input("Name on Smoothie:", max_chars=100)
 st.write("The name on your smoothie will be: ", name_on_order)
 
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('search_on'))
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:'
@@ -36,7 +36,7 @@ if ingredients_list:
         smoothiefroot_respoonse = requests.get("")
         sf_df = st.dataframe(data=smoothiefroot_respoonse.json(), use_container_width=True)
 
-    st.write(ingredients_string)
+    # st.write(ingredients_string)
 
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
             values ('""" + ingredients_string + """', '""" + name_on_order + """')"""
